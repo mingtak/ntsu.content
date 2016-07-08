@@ -1,0 +1,49 @@
+<configure
+    xmlns="http://namespaces.zope.org/zope"
+    xmlns:five="http://namespaces.zope.org/five"
+    xmlns:genericsetup="http://namespaces.zope.org/genericsetup"
+    xmlns:i18n="http://namespaces.zope.org/i18n"
+    i18n_domain="ntsu.content">
+
+  <i18n:registerTranslations directory="locales" />
+
+  <includeDependencies package="." />
+
+  <include package=".browser" />
+
+
+  <genericsetup:registerProfile
+      name="default"
+      title="ntsu.content"
+      directory="profiles/default"
+      description="Installs the ntsu.content add-on."
+      provides="Products.GenericSetup.interfaces.EXTENSION"
+      />
+
+  <genericsetup:importStep
+      name="ntsu.content-postInstall"
+      title="ntsu.content post_install import step"
+      description="Post install import step from ntsu.content"
+      handler=".setuphandlers.post_install">
+  </genericsetup:importStep>
+
+  <genericsetup:registerProfile
+      name="uninstall"
+      title="ntsu.content"
+      directory="profiles/uninstall"
+      description="Uninstalls the ntsu.content add-on."
+      provides="Products.GenericSetup.interfaces.EXTENSION"
+      />
+
+  <genericsetup:importStep
+      name="ntsu.content-uninstall"
+      title="ntsu.content uninstall import step"
+      description="Import step run during ininstalling ntsu.content"
+      handler=".setuphandlers.uninstall">
+  </genericsetup:importStep>
+
+  <utility
+      factory=".setuphandlers.HiddenProfiles"
+      name="ntsu.content-hiddenprofiles" />
+
+</configure>

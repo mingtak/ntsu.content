@@ -1,0 +1,4 @@
+graft src/ntsu
+graft docs
+include *.rst
+global-exclude *.pyc

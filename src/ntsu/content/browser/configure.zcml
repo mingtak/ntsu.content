@@ -1,0 +1,35 @@
+<configure
+    xmlns="http://namespaces.zope.org/zope"
+    xmlns:browser="http://namespaces.zope.org/browser"
+    xmlns:plone="http://namespaces.plone.org/plone"
+    i18n_domain="ntsu.content">
+
+  <!-- Set overrides folder for Just-a-Bunch-Of-Templates product -->
+  <include package="z3c.jbot" file="meta.zcml" />
+  <browser:jbot
+      directory="overrides"
+      layer="ntsu.content.interfaces.INtsuContentLayer"
+      />
+
+  <!-- Publish static files -->
+  <browser:resourceDirectory
+      name="ntsu.content"
+      directory="static"
+      />
+
+  <!-- Browser View -->
+  <browser:page
+      name="cover_view"
+      for="plone.app.contenttypes.interfaces.IDocument"
+      class=".views.CoverView"
+      permission="zope2.View"
+  />
+
+  <browser:page
+      name="online_reading"
+      for="plone.app.contenttypes.interfaces.IFile"
+      class=".views.OnlineReading"
+      permission="zope2.View"
+  />
+
+</configure>

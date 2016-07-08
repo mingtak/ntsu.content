@@ -1,0 +1,6 @@
+[report]
+include =
+    src/ntsu/*
+omit =
+    */test*
+    */upgrades/*
