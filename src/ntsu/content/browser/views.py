@@ -4,6 +4,7 @@ from Products.Five.browser.pagetemplatefile import ViewPageTemplateFile
 from plone import api
 from DateTime import DateTime
 import transaction
+import csv
 
 
 class CoverView(BrowserView):
@@ -22,6 +23,15 @@ class CoverView(BrowserView):
         return self.index()
 
 
+class QuestionView(BrowserView):
+    """ Cover View """
+
+    index = ViewPageTemplateFile("template/question_view.pt")
+
+    def __call__(self):
+        return self.index()
+
+
 class OnlineReading(BrowserView):
     """ Online Reading """
 
@@ -34,3 +44,37 @@ class OnlineReading(BrowserView):
         portal = api.portal.get()
 
         return self.index()
+
+
+class ImportQuestion(BrowserView):
+    """ Cover View """
+
+    def __call__(self):
+        context = self.context
+        catalog = context.portal_catalog
+        request = self.request
+        response = request.response
+        portal = api.portal.get()
+
+        qFolder = portal['resource']['question']
+
+        with open('/home/plone/qLib.csv', 'rb') as file:
+            for row in csv.DictReader(file):
+#                import pdb; pdb.set_trace()
+                ans = [row['ans1'], row['ans2']]
+                if row.get('ans3'):
+                    ans.append(row['ans3'])
+                if row.get('ans4'):
+                    ans.append(row['ans4'])
+                if row.get('ans5'):
+                    ans.append(row['ans5'])
+
+                item = api.content.create(
+                    type='Question',
+                    container=qFolder,
+                    title=row['question'],
+                    answer=ans,
+                    correctAns=row['correct']
+                )
+
+        transaction.commit()

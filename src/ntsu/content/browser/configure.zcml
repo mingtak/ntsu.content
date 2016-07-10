@@ -26,10 +26,26 @@
   />
 
   <browser:page
+      name="question_view"
+      for="*"
+      class=".views.QuestionView"
+      template="template/question_view.pt"
+      permission="zope2.View"
+      />
+
+  <browser:page
       name="online_reading"
       for="plone.app.contenttypes.interfaces.IFile"
       class=".views.OnlineReading"
       permission="zope2.View"
   />
 
+<!--
+  <browser:page
+      name="import_question"
+      for="*"
+      class=".views.ImportQuestion"
+      permission="cmf.ManagePortal"
+  />
+-->
 </configure>

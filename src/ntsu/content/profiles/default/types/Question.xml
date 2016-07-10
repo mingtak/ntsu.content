@@ -1,30 +1,31 @@
 <?xml version="1.0"?>
-<object name="Task" meta_type="Dexterity FTI" i18n:domain="ntsu.content"
+<object name="Question" meta_type="Dexterity FTI" i18n:domain="ntsu.content"
    xmlns:i18n="http://xml.zope.org/namespaces/i18n">
-  <property name="title" i18n:translate="">Task</property>
+  <property name="title" i18n:translate="">Question</property>
   <property name="description"
     i18n:translate=""></property>
   <property name="icon_expr"></property>
-  <property name="factory">Task</property>
-  <property name="add_view_expr">string:${folder_url}/++add++Task</property>
+  <property name="factory">Question</property>
+  <property name="add_view_expr">string:${folder_url}/++add++Question</property>
   <property name="link_target"></property>
-  <property name="immediate_view">view</property>
+  <property name="immediate_view">question_view</property>
   <property name="global_allow">True</property>
   <property name="filter_content_types">True</property>
   <property name="allowed_content_types">
   </property>
   <property name="allow_discussion">False</property>
-  <property name="default_view">view</property>
+  <property name="default_view">question_view</property>
   <property name="view_methods">
-    <element value="view"/>
+    <element value="question_view"/>
   </property>
   <property name="default_view_fallback">False</property>
   <property name="add_permission">cmf.AddPortalContent</property>
   <property name="klass">plone.dexterity.content.Item</property>
   <property name="behaviors">
     <element value="plone.app.content.interfaces.INameFromTitle"/>
+    <element value="plone.app.dexterity.behaviors.metadata.ICategorization"/>
   </property>
-  <property name="schema">ntsu.content.interfaces.ITask</property>
+  <property name="schema">ntsu.content.interfaces.IQuestion</property>
   <property name="model_source"></property>
   <property name="model_file"></property>
   <alias from="(Default)" to="(dynamic view)"/>

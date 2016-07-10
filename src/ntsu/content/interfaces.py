@@ -11,14 +11,34 @@ class INtsuContentLayer(IDefaultBrowserLayer):
     """Marker interface that defines a browser layer."""
 
 
-class ITask(Interface):
+class IPlayer(Interface):
 
     title = schema.TextLine(
         title=_(u"Title"),
         required=True,
     )
 
-    description = schema.Text(
-        title=_(u"Description"),
+    players = schema.List(
+        title=_(u"Players"),
+        value_type = schema.TextLine(title=_(u"Players"),),
         required=False,
+    )
+
+
+class IQuestion(Interface):
+
+    title = schema.TextLine(
+        title=_(u"Title (Question) "),
+        required=True,
+    )
+
+    answer = schema.List(
+        title=_(u"Answer"),
+        value_type = schema.TextLine(title=_(u"Answer"),),
+        required=True,
+    )
+
+    correctAns = schema.TextLine(
+        title=_(u"Correct Answer"),
+        required=True,
     )
