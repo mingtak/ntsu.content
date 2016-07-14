@@ -33,6 +33,13 @@
   />
 
   <browser:page
+      name="player_view"
+      for="ntsu.content.interfaces.IPlayer"
+      class=".views.PlayerView"
+      permission="zope2.View"
+  />
+
+  <browser:page
       name="question_view"
       for="*"
       class=".question.QuestionView"
@@ -50,6 +57,20 @@
       name="confirm"
       for="*"
       class=".question.Confirm"
+      permission="zope2.View"
+      />
+
+  <browser:page
+      name="see_result"
+      for="*"
+      class=".question.SeeResult"
+      permission="zope2.View"
+      />
+
+  <browser:page
+      name="thanks"
+      for="*"
+      class=".question.Thanks"
       permission="zope2.View"
       />
 

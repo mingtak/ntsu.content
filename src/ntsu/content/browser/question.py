@@ -11,6 +11,64 @@ import json
 import random
 
 
+class Thanks(BrowserView):
+    """ Thanks page """
+
+    index = ViewPageTemplateFile("template/thanks.pt")
+
+    def __call__(self):
+        context = self.context
+        catalog = context.portal_catalog
+        request = self.request
+        response = request.response
+        portal = api.portal.get()
+
+        player = portal['resource']['player']
+
+        if not request.get('HTTP_REFERER', '').endswith('@@see_result'):
+                response.redirect(portal['event'].absolute_url())
+                return
+
+        # 要使用 google 驗證，待網址確定後導入
+
+        data = json.dumps(request.form)
+        if player.players:
+            player.players.append(data)
+        else:
+            player.players = [data]
+
+        transaction.commit()
+        return self.index()
+
+
+class SeeResult(BrowserView):
+    """ See Result page """
+
+    index = ViewPageTemplateFile("template/see_result.pt")
+
+    def __call__(self):
+        context = self.context
+        catalog = context.portal_catalog
+        request = self.request
+        response = request.response
+        portal = api.portal.get()
+
+        try:
+            uState = json.loads(request.cookies.get('uState'))
+        except:
+            response.redirect(portal['event'].absolute_url())
+            return
+
+        self.amount = 0
+        for key in uState:
+            if uState[key] == 't':
+                self.amount += 20
+            elif uState[key] == 'n':
+                response.redirect(portal['event'].absolute_url())
+                return
+        return self.index()
+
+
 class Confirm(BrowserView):
     """ Confirm answer """
 

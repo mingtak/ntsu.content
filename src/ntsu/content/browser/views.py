@@ -94,3 +94,13 @@ class ImportQuestion(BrowserView):
                 )
 
         transaction.commit()
+
+
+class PlayerView(BrowserView):
+    """ Player View """
+
+    index = ViewPageTemplateFile("template/player_view.pt")
+
+    def __call__(self):
+        return self.index()
+
