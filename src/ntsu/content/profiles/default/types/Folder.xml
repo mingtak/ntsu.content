@@ -20,6 +20,8 @@
   <element value="full_view"/>
   <element value="album_view"/>
   <element value="event_listing"/>
+  <element value="online_reading"/>
+  <element value="video_view"/>
  </property>
  <property name="default_view_fallback">False</property>
  <property name="add_permission">plone.app.contenttypes.addFolder</property>

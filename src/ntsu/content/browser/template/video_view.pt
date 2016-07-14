@@ -12,7 +12,19 @@
 <metal:content-core define-macro="content-core"
                     tal:define="toc context/table_of_contents|nothing;">
 
-Online Reading Template
+
+
+<h1 tal:content="context/title"/>
+
+
+videoview
+
+
+
+
+
+
+
 
 
 </metal:content-core>

@@ -19,6 +19,13 @@
 
   <!-- Browser View -->
   <browser:page
+      name="video_view"
+      for="plone.app.contenttypes.interfaces.IFolder"
+      class=".views.VideoView"
+      permission="zope2.View"
+  />
+
+  <browser:page
       name="cover_view"
       for="plone.app.contenttypes.interfaces.IDocument"
       class=".views.CoverView"
@@ -28,14 +35,27 @@
   <browser:page
       name="question_view"
       for="*"
-      class=".views.QuestionView"
-      template="template/question_view.pt"
+      class=".question.QuestionView"
+      permission="zope2.View"
+      />
+
+  <browser:page
+      name="entry"
+      for="*"
+      class=".question.Entry"
+      permission="zope2.View"
+      />
+
+  <browser:page
+      name="confirm"
+      for="*"
+      class=".question.Confirm"
       permission="zope2.View"
       />
 
   <browser:page
       name="online_reading"
-      for="plone.app.contenttypes.interfaces.IFile"
+      for="plone.app.contenttypes.interfaces.IFolder"
       class=".views.OnlineReading"
       permission="zope2.View"
   />

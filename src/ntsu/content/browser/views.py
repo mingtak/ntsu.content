@@ -7,6 +7,22 @@ import transaction
 import csv
 
 
+class VideoView(BrowserView):
+    """ Video View """
+
+    index = ViewPageTemplateFile("template/video_view.pt")
+
+    def __call__(self):
+        context = self.context
+        catalog = context.portal_catalog
+        request = self.request
+        response = request.response
+        portal = api.portal.get()
+
+        self.docs = context.getChildNodes()
+        return self.index()
+
+
 class CoverView(BrowserView):
     """ Cover View """
 
