@@ -4,7 +4,24 @@ from Products.Five.browser.pagetemplatefile import ViewPageTemplateFile
 from plone import api
 from DateTime import DateTime
 import transaction
+import random
 import csv
+
+
+class UpdateCounter(BrowserView):
+    """ Update Counter """
+
+    def __call__(self):
+        context = self.context
+        portal = api.portal.get()
+
+        counter = portal['resource']['counter']
+        old = int(counter.title)
+        new = old + random.randint(30,100)
+        counter.title = str(new)
+        counter.reindexObject(idxs=['Title'])
+        transaction.commit()
+        return
 
 
 class VideoView(BrowserView):

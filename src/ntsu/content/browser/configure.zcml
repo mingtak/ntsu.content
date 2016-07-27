@@ -19,6 +19,13 @@
 
   <!-- Browser View -->
   <browser:page
+      name="update_counter"
+      for="*"
+      class=".views.UpdateCounter"
+      permission="cmf.ManagePortal"
+  />
+
+  <browser:page
       name="video_view"
       for="plone.app.contenttypes.interfaces.IFolder"
       class=".views.VideoView"

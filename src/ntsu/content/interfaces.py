@@ -18,6 +18,12 @@ class IPlayer(Interface):
         required=True,
     )
 
+    emailList = schema.List(
+        title=_(u"Email List"),
+        value_type = schema.TextLine(title=_(u"EmailList"),),
+        required=False,
+    )
+
     players = schema.List(
         title=_(u"Players"),
         value_type = schema.TextLine(title=_(u"Players"),),

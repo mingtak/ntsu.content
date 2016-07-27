@@ -9,12 +9,23 @@ import transaction
 import csv
 import json
 import random
+import urllib, urllib2
 
 
 class Thanks(BrowserView):
     """ Thanks page """
 
-    index = ViewPageTemplateFile("template/thanks.pt")
+    thanks = ViewPageTemplateFile("template/thanks.pt")
+    played = ViewPageTemplateFile("template/played.pt")
+
+    def post(self, url, data):
+        req = urllib2.Request(url)
+        data = urllib.urlencode(data)
+        #enable cookie
+        opener = urllib2.build_opener(urllib2.HTTPCookieProcessor())
+        response = opener.open(req, data)
+        return response.read()
+
 
     def __call__(self):
         context = self.context
@@ -25,20 +36,39 @@ class Thanks(BrowserView):
 
         player = portal['resource']['player']
 
+        postUrl = 'https://www.google.com/recaptcha/api/siteverify'
+        data = {
+            'secret':portal['resource']['recaptcha'].recaptcha,
+            'response':request.form.get('g-recaptcha-response'),
+            'remoteip':request.get('REMOTE_ADDR'),
+        }
+
+        recaptchaResult = json.loads(self.post(postUrl, data))
+
+        if not recaptchaResult.get('success'):
+            return self.played()
+
         if not request.get('HTTP_REFERER', '').endswith('@@see_result'):
                 response.redirect(portal['event'].absolute_url())
                 return
 
-        # 要使用 google 驗證，待網址確定後導入
-
+        email = request.form.get('email')
         data = json.dumps(request.form)
+
+        if not player.emailList:
+            player.emailList = [email]
+        elif email in player.emailList:
+            return self.played()
+        else:
+            player.emailList.append(email)
+
         if player.players:
             player.players.append(data)
         else:
             player.players = [data]
 
         transaction.commit()
-        return self.index()
+        return self.thanks()
 
 
 class SeeResult(BrowserView):
