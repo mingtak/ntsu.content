@@ -5,6 +5,8 @@ from Products.Five.browser.pagetemplatefile import ViewPageTemplateFile
 #from zope.component import getMultiAdapter
 from plone import api
 from DateTime import DateTime
+from zope.lifecycleevent import ObjectModifiedEvent
+from zope.event import notify
 import transaction
 import csv
 import json
@@ -55,19 +57,21 @@ class Thanks(BrowserView):
         email = request.form.get('email')
         data = json.dumps(request.form)
 
-        if not player.emailList:
-            player.emailList = [email]
-        elif email in player.emailList:
-            return self.played()
-        else:
-            player.emailList.append(email)
+        with api.env.adopt_roles(['Manager']):
+            if not player.emailList:
+                player.emailList = [email]
+            elif email in player.emailList:
+                return self.played()
+            else:
+                player.emailList.append(email)
 
-        if player.players:
-            player.players.append(data)
-        else:
-            player.players = [data]
+            if player.players:
+                player.players.append(data)
+            else:
+                player.players = [data]
 
-        transaction.commit()
+            notify(ObjectModifiedEvent(player))
+            transaction.commit()
         return self.thanks()
 
 
